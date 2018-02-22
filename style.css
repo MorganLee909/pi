@@ -1,0 +1,28 @@
+body {
+  background-color: black;
+  color: yellow;
+}
+
+h1 {
+  text-align: center;
+  font-size: 50px;
+}
+
+button {
+  background-color: red;
+  color: black;
+  font-size: 20px;
+  border-radius: 100px;
+  width: 10%;
+  margin: auto;
+}
+
+button:hover {
+  background-color: blue;
+  color: yellow;
+}
+
+div {
+  width: 100%;
+  text-align: center;
+}
