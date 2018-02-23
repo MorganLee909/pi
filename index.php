@@ -14,7 +14,7 @@
       $pin = 3;
     }
 
-    shell_exec("python -c 'from relayControl import switchOnOff; switchOnOff()'" .$pin)
+    shell_exec("python -c 'from relayControl import switchOnOff; switchOnOff()' " .$pin)
   ?>
 
 <body>
