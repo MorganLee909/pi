@@ -8,13 +8,13 @@
   <?php
     $pin = 0;
     if(isset($_POST['first'])){
-      $pin = 2;
+      $pin = 9;
     }
     else if(isset($_POST['second'])){
-      $pin = 3;
+      $pin = 10;
     }
 
-    shell_exec("python -c 'from relayControl import switchOnOff; switchOnOff()'" .$pin)
+    shell_exec("python -c 'from relayControl import switchOnOff; switchOnOff()' " .$pin)
   ?>
 
 <body>
