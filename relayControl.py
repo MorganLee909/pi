@@ -12,10 +12,12 @@ for i in pinList:
 
 #Get the pin number passed by PHP and cast to int
 #determine whether the relay is on or off and switch it
-def switchOnOff():
+#TODO change input to 1-8 and convert to pin number
+def switchOnOff(pin = None):
     #Get pin input from terminal and cast to int
-    pinRaw = sys.argv[1]
-    pin = int(pinRaw)
+    if (pin == None):
+        pinRaw = sys.argv[1]
+        pin = int(pinRaw)
 
     if(GPIO.input(pin) == 0):
         GPIO.output(pin, GPIO.HIGH)
