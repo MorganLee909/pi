@@ -1,7 +1,7 @@
 #!/usr/bin/python
 from datetime import datetime
 import time
-#import relayControl.py
+import relayControl.py
 
 def afterWork():
     if (dayOfWeek == "Tue" or "Wed" or "Thu" or "Fri" or "Sat"):
