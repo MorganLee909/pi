@@ -13,8 +13,8 @@
     else if(isset($_POST['second'])){
       $pin = 10;
     }
-
-    shell_exec("python -c 'from relayControl import switchOnOff; switchOnOff()' " .$pin)
+	
+    shell_exec("sudo python -c 'from relayControl import switchOnOff; switchOnOff()' " .$pin);
   ?>
 
 <body>

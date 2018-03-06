@@ -5,7 +5,7 @@ import relayControl
 
 def afterWork():
     if (dayOfWeek == "Tue" or "Wed" or "Thu" or "Fri" or "Sat"):
-        if (currentTime == "0446"):
+        if (currentTime == "0450"):
             relayControl.switchOnOff(10)
 
 dayOfWeek = ""
