@@ -10,15 +10,35 @@ pinList = [2, 3, 4, 17, 27, 22, 10, 9]
 for i in pinList:
     GPIO.setup(i, GPIO.OUT)
 
-#Get the pin number passed by PHP and cast to int
-#determine whether the relay is on or off and switch it
-#TODO change input to 1-8 and convert to pin number
-def switchOnOff(pin = None):
-    #Get pin input from terminal and cast to int
+
+def recieveInput(pin = None):
+    #If called from website will run this to get the argument from shell
     if (pin == None):
         pinRaw = sys.argv[1]
         pin = int(pinRaw)
+    
+    #Change input number to corresponding pin on the pi
+    if(pin == 1):
+        pin = 2
+    elif(pin == 2):
+        pin = 3
+    elif(pin == 3):
+        pin = 4
+    elif(pin == 4):
+        pin = 17
+    elif(pin == 5):
+        pin = 27
+    elif(pin == 6):
+        pin = 22
+    elif(pin == 7):
+        pin = 10
+    elif(pin == 8):
+        pin = 9
+    
+    switchOnOff(pin)
 
+#Flip the switch on corresponding pin
+def switchOnOff(pin):
     if(GPIO.input(pin) == 0):
         GPIO.output(pin, GPIO.HIGH)
     elif(GPIO.input(pin) == 1):
