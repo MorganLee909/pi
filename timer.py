@@ -5,8 +5,9 @@ import relayControl
 
 def afterWork():
     if (dayOfWeek == "Tue" or "Wed" or "Thu" or "Fri" or "Sat"):
-        if (currentTime == "0450"):
+        if (currentTime == "0116"):
             relayControl.recieveInput(8)
+            print("I'm here")
 
 dayOfWeek = ""
 currentTime = ""
@@ -15,4 +16,4 @@ while True:
     dayOfWeek = datetime.now().strftime("%a")
     currentTime = datetime.now().strftime("%H%M")
     afterWork()
-    time.sleep(59)
+    time.sleep(6)

@@ -3,7 +3,9 @@ import RPi.GPIO as GPIO
 import sys
 
 #set mode to BCM (may be redundant)
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
+
 
 #set pins to output
 pinList = [2, 3, 4, 17, 27, 22, 10, 9]
