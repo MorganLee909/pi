@@ -1,14 +1,23 @@
-#!/usr/bin/python
 import RPi.GPIO as GPIO
+import time
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
+PIR_PIN = 7
+GPIO.setup(PIR_PIN, GPIO.IN)
 
-GPIO.setup(2, GPIO.IN)
-pin = 2
+def MOTION(PIR_PIN):
+    print("Motion detected")
 
-while(True):
-    if(GPIO.input(pin) == 0):
-        print("output 0")
-    elif(GPIO.input(pin) == 1):
-        print("output 1")
+print("PIR Module Test (CTRL+C to exit)")
+time.sleep(2)
+print("Ready")
+
+try:
+    GPIO.add_event_detect(PIR_PIN, GPIO.RISING, callback=MOTION)
+
+    while 1:
+        time.sleep(2)
+
+except KeyboardInterrupt:
+    print("Quit")
+    GPIO.cleanup()
