@@ -10,6 +10,10 @@ def afterWork():
         if (currentTime == "0630"):
             GPIO.output(8, GPIO.LOW)
 
+    if(dayOfWeek == "Sun"):
+        if(currenttime == "0500"):
+            GPIO.output(7, GPIO.HIGH)
+
 dayOfWeek = ""
 currentTime = ""
 
