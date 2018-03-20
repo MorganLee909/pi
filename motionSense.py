@@ -1,23 +1,22 @@
 import RPi.GPIO as GPIO
 import time
 
+def roomOccupiedLoop():
+    GPIO.output(lightPin, GPIO.HIGH)
+    while(GPIO.input(motionPin) == 1):
+        time.sleep(300)
+    GPIO.output(lightPin, GPIO.LOW)
+
+
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
-PIR_PIN = 7
-GPIO.setup(PIR_PIN, GPIO.IN)
 
-def MOTION(PIR_PIN):
-    print("Motion detected")
+motionPin = 26
+lightPin = 10
+GPIO.setup(motionPin, GPIO.IN)
+GPIO.setup(lightPin, GPIO.OUT)
 
-print("PIR Module Test (CTRL+C to exit)")
-time.sleep(2)
-print("Ready")
-
-try:
-    GPIO.add_event_detect(PIR_PIN, GPIO.RISING, callback=MOTION)
-
-    while 1:
-        time.sleep(2)
-
-except KeyboardInterrupt:
-    print("Quit")
-    GPIO.cleanup()
+while True:
+    if(GPIO.input(motionPin) == 1):
+        roomOccupiedLoop()
+        sleep(1)
