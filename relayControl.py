@@ -8,6 +8,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 
+
 #set pins to output
 pinList = [2, 3, 4, 17, 27, 22, 10, 9]
 for i in pinList:
