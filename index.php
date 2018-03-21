@@ -8,9 +8,6 @@
   <?php
     $pin = 0;
     if(isset($_POST['first'])){
-      $pin = 7;
-    }
-    else if(isset($_POST['second'])){
       $pin = 8;
     }
 	
@@ -22,7 +19,6 @@
   <div>
     <form method="post">
       <button name="first">Light</button>
-      <button name="second">Fan</button>
   </div>
 </body>
 </html>

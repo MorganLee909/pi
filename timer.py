@@ -6,21 +6,26 @@ import time
 #Set up the GPIO and the pins
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-GPIO.setup(7, GPIO.OUT)
+
+light = 9
+GPIO.setup(light, GPIO.OUT)
+
 
 dayOfWeek = ""
 currentTime = ""
 
 def checkDateTime():
     if (dayOfWeek == "Tue" or "Wed" or "Thu" or "Fri" or "Sat"):
+        print("day correct")
         if (currentTime == "0545"):
-            GPIO.output(7, GPIO.HIGH)
+            print("time correct")
+            GPIO.output(light, GPIO.LOW)
         if (currentTime == "0630"):
-            GPIO.output(7, GPIO.LOW)
+            GPIO.output(light, GPIO.HIGH)
 
     if(dayOfWeek == "Sun"):
         if(currentTime == "0500"):
-            GPIO.output(7, GPIO.HIGH)
+            GPIO.output(light, GPIO.LOW)
 
 while True:
     dayOfWeek = datetime.now().strftime("%a")
