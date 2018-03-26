@@ -1,114 +1,92 @@
-import RPi.GPIO as GPIO
-import time
- 
-# Define GPIO to LCD mapping
-registerPin = 15
-enablePin  = 23
-pin4 = 27
-pin5 = 22
-pin6 = 10
-pin7 = 9
- 
-# Define some device constants
-screenWidth = 16    # Maximum characters per line
-LCD_CHR = True
-LCD_CMD = False
- 
-line1 = 0x80 # LCD RAM address for the 1st line
-line2 = 0xC0 # LCD RAM address for the 2nd line
- 
-# Timing constants
-enableDelay = 0.0005
- 
-def main():
-  # Main program block
-  GPIO.setwarnings(False)
-  GPIO.setmode(GPIO.BCM)
+import RPi.GPIO as IO            # calling for header file which helps us use GPIO’s of PI
+import time                              # calling for time to provide delays in program
+import sys
+IO.setwarnings(False)             # do not show any warnings
+IO.setmode (IO.BCM)             # programming the GPIO by BCM pin numbers. (like PIN29 as‘GPIO5’)
 
-  GPIO.setup(enablePin, GPIO.OUT)
-  GPIO.setup(registerPin, GPIO.OUT)
-  GPIO.setup(pin4, GPIO.OUT)
-  GPIO.setup(pin5, GPIO.OUT)
-  GPIO.setup(pin6, GPIO.OUT)
-  GPIO.setup(pin7, GPIO.OUT)
- 
-  while True:
-    #use lcdString() to write to lcd
- 
-    lcdString("Penis", line1)
-    time.sleep(3)
- 
-    lcdString("Double", line1)
-    lcdString("Penis", line2)
-    time.sleep(3)
+IO.setup(6,IO.OUT)                # initialize GPIO Pins as outputs
+IO.setup(22,IO.OUT)
+IO.setup(21,IO.OUT)
+IO.setup(20,IO.OUT)
+IO.setup(16,IO.OUT)
+IO.setup(12,IO.OUT)
+IO.setup(25,IO.OUT)
+IO.setup(24,IO.OUT)
+IO.setup(23,IO.OUT)
+IO.setup(18,IO.OUT)
 
-def lcd_byte(bits, mode):
-  # Send byte to data pins
-  # bits = data
-  # mode = True  for character
-  #        False for command
- 
-  GPIO.output(registerPin, mode) # RS
- 
-  # High bits
-  GPIO.output(pin4, False)
-  GPIO.output(pin5, False)
-  GPIO.output(pin6, False)
-  GPIO.output(pin7, False)
-  if bits&0x10==0x10:
-    GPIO.output(pin4, True)
-  if bits&0x20==0x20:
-    GPIO.output(pin5, True)
-  if bits&0x40==0x40:
-    GPIO.output(pin6, True)
-  if bits&0x80==0x80:
-    GPIO.output(pin7, True)
- 
-  # Toggle 'Enable' pin
-  lcd_toggle_enable()
- 
-  # Low bits
-  GPIO.output(pin4, False)
-  GPIO.output(pin5, False)
-  GPIO.output(pin6, False)
-  GPIO.output(pin7, False)
-  if bits&0x01==0x01:
-    GPIO.output(pin4, True)
-  if bits&0x02==0x02:
-    GPIO.output(pin5, True)
-  if bits&0x04==0x04:
-    GPIO.output(pin6, True)
-  if bits&0x08==0x08:
-    GPIO.output(pin7, True)
- 
-  # Toggle 'Enable' pin
-  lcd_toggle_enable()
- 
-def lcd_toggle_enable():
-  # Toggle enable
-  time.sleep(enableDelay)
-  GPIO.output(enablePin, True)
-  time.sleep(enableDelay)
-  GPIO.output(enablePin, False)
-  time.sleep(enableDelay)
- 
-def lcdString(message,line):
-  # Send string to display
- 
-  message = message.ljust(screenWidth)
- 
-  lcd_byte(line, LCD_CMD)
- 
-  for i in range(screenWidth):
-    lcd_byte(ord(message[i]),LCD_CHR)
- 
-if __name__ == '__main__':
- 
-  try:
-    main()
-  except KeyboardInterrupt:
-    pass
-  finally:
-    lcd_byte(0x01, LCD_CMD)
-    lcdString("Goodbye!",line1)
-    GPIO.cleanup()
+def send_a_command (command):                # execute the loop when “sead_a_command” is called
+    pin=command
+    PORT(pin)                                                # calling 'PORT' to assign value to data port
+    IO.output(6,0)                                           # putting 0 in RS to tell LCD we are sending command
+    IO.output(22,1)                                         # telling LCD to receive command/data at the port by pulling EN pin high
+    time.sleep(0.05)
+    IO.output(22,0)                                         # pulling down EN pin to tell LCD we have sent the data.
+    pin=0
+    PORT(pin)                                                # pulling down the port to stop transmitting
+
+def send_a_character (character):                # execute the loop when “send_a_character” is called
+    pin=character
+    PORT(pin)
+    IO.output(6,1)
+    IO.output(22,1)
+    time.sleep(0.05)
+    IO.output(22,0)
+    pin=0
+    PORT(pin)
+
+def PORT(pin):                                # assigning PIN by taking PORT value
+    if(pin&0x01 == 0x01):
+        IO.output(21,1)                        # if  bit0 of 8bit 'pin' is true, pull PIN21 high
+    else:
+        IO.output(21,0)                        # if  bit0 of 8bit 'pin' is false, pull PIN21 low
+    if(pin&0x02 == 0x02):
+        IO.output(20,1)                        # if  bit1 of 8bit 'pin' is true, pull PIN20 high
+    else:
+        IO.output(20,0)                        # if  bit1 of 8bit 'pin' is true, pull PIN20 low
+    if(pin&0x04 == 0x04):
+        IO.output(16,1)
+    else:
+        IO.output(16,0)
+    if(pin&0x08 == 0x08):
+        IO.output(12,1)
+    else:
+        IO.output(12,0)   
+if(pin&0x10 == 0x10):
+        IO.output(25,1)
+    else:
+        IO.output(25,0)
+    if(pin&0x20 == 0x20):
+        IO.output(24,1)
+    else:
+        IO.output(24,0)
+    if(pin&0x40 == 0x40):
+        IO.output(23,1)
+    else:
+        IO.output(23,0)
+    if(pin&0x80 == 0x80):
+        IO.output(18,1)                        # if  bit7 of 8bit 'pin' is true pull PIN18 high
+    else:
+        IO.output(18,0)                       #if  bit7 of 8bit 'pin' is false pull PIN18 low
+        
+while 1:   
+    send_a_command(0x01)                    # sending 'all clear' command
+    send_a_command(0x38)                    # 16*2 line LCD
+    send_a_command(0x0E)                    # screen and cursor ON
+    send_a_character(0x43)                    # ASCII code for 'C'
+    send_a_character(0x49)                    # ASCII code for 'I' 
+    send_a_character(0x52)                    # ASCII code for 'R'
+    send_a_character(0x43)                    # ASCII code for 'C'
+    send_a_character(0x55)                    # ASCII code for 'U' 
+    send_a_character(0x49)                    # ASCII code for 'I' 
+    send_a_character(0x54)                    # ASCII code for 'T'
+    
+    # ASCII codes for 'DIGEST'
+    send_a_character(0x44)                    
+    send_a_character(0x49)
+    send_a_character(0x47)
+    send_a_character(0x45)
+    send_a_character(0x53)
+    send_a_character(0x54)
+    
+    time.sleep(1)
